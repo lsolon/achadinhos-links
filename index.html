@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Achadinhos de Casa — Links</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #F5F0E8;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+  }
+
+  .logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #2C2416;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 38px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #2C2416;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .handle {
+    font-size: 14px;
+    color: #7A6A55;
+    margin-bottom: 8px;
+  }
+
+  .tagline {
+    font-size: 13px;
+    color: #9A8A75;
+    text-align: center;
+    max-width: 260px;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #9A8A75;
+    width: 100%;
+    max-width: 360px;
+    margin: 24px 0 10px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 360px;
+    background: #fff;
+    border: 1.5px solid #E8E0D0;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #2C2416;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.18s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .btn:hover {
+    background: #FFF8EE;
+    border-color: #C8A96E;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(44,36,22,0.08);
+  }
+
+  .btn .icon {
+    font-size: 20px;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .btn .text { flex: 1; }
+  .btn .text .label { display: block; font-weight: 600; }
+  .btn .text .sublabel { display: block; font-size: 12px; color: #9A8A75; margin-top: 2px; }
+
+  .btn .arrow {
+    font-size: 16px;
+    color: #C8A96E;
+    flex-shrink: 0;
+  }
+
+  .btn.featured {
+    background: #2C2416;
+    border-color: #2C2416;
+    color: #fff;
+  }
+  .btn.featured .text .sublabel { color: #C8A96E; }
+  .btn.featured .arrow { color: #C8A96E; }
+  .btn.featured:hover { background: #3D3020; border-color: #3D3020; }
+
+  .copy-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #2C2416;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  .copy-toast.show { transform: translateX(-50%) translateY(0); }
+
+  .divider {
+    width: 100%;
+    max-width: 360px;
+    height: 1px;
+    background: #E8E0D0;
+    margin: 20px 0 4px;
+  }
+
+  .footer {
+    margin-top: 40px;
+    font-size: 11px;
+    color: #BFB3A0;
+    text-align: center;
+  }
+  .footer a { color: #C8A96E; text-decoration: none; }
+
+  /* Edit mode overlay */
+  #edit-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  #edit-panel.open { display: flex; }
+  #edit-form {
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 28px 24px 40px;
+    width: 100%;
+    max-width: 480px;
+  }
+  #edit-form h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #2C2416; }
+  #edit-form label { font-size: 12px; font-weight: 600; color: #7A6A55; display: block; margin-bottom: 4px; margin-top: 12px; }
+  #edit-form input { width: 100%; padding: 10px 12px; border: 1.5px solid #E8E0D0; border-radius: 10px; font-size: 14px; font-family: inherit; }
+  #edit-form input:focus { outline: none; border-color: #C8A96E; }
+  #save-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    background: #2C2416;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #close-btn {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #7A6A55;
+  }
+  #edit-form { position: relative; }
+</style>
+</head>
+<body>
+
+<div class="logo">🏠</div>
+<h1>Achadinhos de Casa</h1>
+<p class="handle">@achadinhosdecasa.rj</p>
+<p class="tagline">Produtos incríveis pra casa com preço de Shopee ✨</p>
+
+<!-- MAIS PEDIDOS -->
+<div class="section-title">⭐ Mais pedidos</div>
+
+<a class="btn featured" id="link-top1" href="https://s.shopee.com.br/8AXIVui1K5" target="_blank" rel="noopener">
+  <span class="icon">🏆</span>
+  <span class="text">
+    <span class="label" id="label-top1">Organizador de gaveta colmeia</span>
+    <span class="sublabel" id="sub-top1">176 vendas · 16% comissão 🔥</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<a class="btn featured" id="link-top2" href="https://s.shopee.com.br/3g4t9xvPBa" target="_blank" rel="noopener">
+  <span class="icon">🔥</span>
+  <span class="text">
+    <span class="label" id="label-top2">Cabides veludo antiderrapante</span>
+    <span class="sublabel" id="sub-top2">Organiza o guarda-roupa 👌</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<!-- COZINHA -->
+<div class="section-title">🍳 Cozinha</div>
+
+<a class="btn" id="link-coz1" href="https://s.shopee.com.br/1147yyYNTM" target="_blank" rel="noopener">
+  <span class="icon">🫙</span>
+  <span class="text">
+    <span class="label" id="label-coz1">Jogo de potes herméticos</span>
+    <span class="sublabel">Organização top — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<a class="btn" id="link-coz2" href="https://s.shopee.com.br/9pfWV4hyym" target="_blank" rel="noopener">
+  <span class="icon">🧂</span>
+  <span class="text">
+    <span class="label" id="label-coz2">Porta-temperos giratório</span>
+    <span class="sublabel">Viral no Instagram — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<a class="btn" id="link-coz3" href="https://s.shopee.com.br/80DsJodP5J" target="_blank" rel="noopener">
+  <span class="icon">🧴</span>
+  <span class="text">
+    <span class="label" id="label-coz3">Dispenser de detergente inox</span>
+    <span class="sublabel">Deixa a pia elegante — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<!-- ORGANIZAÇÃO -->
+<div class="section-title">🗂️ Organização</div>
+
+<a class="btn" id="link-org1" href="https://s.shopee.com.br/8AXIVui1K5" target="_blank" rel="noopener">
+  <span class="icon">📦</span>
+  <span class="text">
+    <span class="label" id="label-org1">Organizador de gaveta modular</span>
+    <span class="sublabel">Casa organizada — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<a class="btn" id="link-org2" href="https://s.shopee.com.br/1147ytafjz" target="_blank" rel="noopener">
+  <span class="icon">❄️</span>
+  <span class="text">
+    <span class="label" id="label-org2">Organizador de geladeira transparente</span>
+    <span class="sublabel">Geladeira arrumada — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<!-- SALA & DECORAÇÃO -->
+<div class="section-title">🛋️ Sala &amp; Decoração</div>
+
+<a class="btn" id="link-sal1" href="https://s.shopee.com.br/gRHaPMGZg" target="_blank" rel="noopener">
+  <span class="icon">🪞</span>
+  <span class="text">
+    <span class="label" id="label-sal1">Espelho decorativo dourado</span>
+    <span class="sublabel">Sala que parecer cara — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<a class="btn" id="link-sal2" href="https://s.shopee.com.br/8VA8um15fJ" target="_blank" rel="noopener">
+  <span class="icon">🪴</span>
+  <span class="text">
+    <span class="label" id="label-sal2">Vasos minimalistas decorativos</span>
+    <span class="sublabel">Tendência 2025 — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<a class="btn" id="link-sal3" href="https://s.shopee.com.br/qkhmjBOoB" target="_blank" rel="noopener">
+  <span class="icon">💡</span>
+  <span class="text">
+    <span class="label" id="label-sal3">Luminária de mesa com dimmer</span>
+    <span class="sublabel">Ambiente aconchegante — ver na Shopee</span>
+  </span>
+  <span class="arrow">›</span>
+</a>
+
+<div class="divider"></div>
+
+<!-- Botão editar links (modo admin) -->
+<button class="btn" onclick="openEdit()" style="background:#FFF8EE; border-color:#C8A96E; color:#7A6A55; max-width:360px; width:100%;">
+  <span class="icon">✏️</span>
+  <span class="text"><span class="label" style="color:#7A6A55">Editar meus links</span></span>
+</button>
+
+<div class="footer">
+  Achadinhos de Casa · Rio de Janeiro 🏠<br>
+  <a href="https://www.instagram.com/achadinhosdecasa.rj/" target="_blank">@achadinhosdecasa.rj</a>
+</div>
+
+<!-- Edit panel -->
+<div id="edit-panel">
+  <div id="edit-form">
+    <button id="close-btn" onclick="closeEdit()">✕</button>
+    <h2>Editar links da Shopee</h2>
+    <p style="font-size:12px;color:#9A8A75;margin-bottom:4px;">Cole os links afiliados da Shopee em cada campo</p>
+
+    <label>⭐ Destaque #1 — URL</label>
+    <input type="url" id="inp-top1" placeholder="https://s.shopee.com.br/..." />
+    <label>⭐ Destaque #1 — Nome do produto</label>
+    <input type="text" id="inp-top1-label" placeholder="Ex: Organizador de gaveta" />
+
+    <label>🔥 Destaque #2 — URL</label>
+    <input type="url" id="inp-top2" placeholder="https://s.shopee.com.br/..." />
+    <label>🔥 Destaque #2 — Nome do produto</label>
+    <input type="text" id="inp-top2-label" placeholder="Ex: Porta-temperos giratório" />
+
+    <label>🍳 Cozinha — Potes herméticos URL</label>
+    <input type="url" id="inp-coz1" placeholder="https://s.shopee.com.br/..." />
+
+    <label>🧂 Cozinha — Porta-temperos URL</label>
+    <input type="url" id="inp-coz2" placeholder="https://s.shopee.com.br/..." />
+
+    <label>🧴 Cozinha — Dispenser inox URL</label>
+    <input type="url" id="inp-coz3" placeholder="https://s.shopee.com.br/..." />
+
+    <label>📦 Organização — Gaveta modular URL</label>
+    <input type="url" id="inp-org1" placeholder="https://s.shopee.com.br/..." />
+
+    <label>❄️ Organização — Geladeira URL</label>
+    <input type="url" id="inp-org2" placeholder="https://s.shopee.com.br/..." />
+
+    <label>🪞 Sala — Espelho URL</label>
+    <input type="url" id="inp-sal1" placeholder="https://s.shopee.com.br/..." />
+
+    <label>🪴 Sala — Vasos URL</label>
+    <input type="url" id="inp-sal2" placeholder="https://s.shopee.com.br/..." />
+
+    <label>💡 Sala — Luminária URL</label>
+    <input type="url" id="inp-sal3" placeholder="https://s.shopee.com.br/..." />
+
+    <button id="save-btn" onclick="saveLinks()">💾 Salvar links</button>
+  </div>
+</div>
+
+<div class="copy-toast" id="toast">✅ Links salvos!</div>
+
+<script>
+  const LINKS = {
+    top1: { href: 'https://s.shopee.com.br/8AXIVui1K5', label: 'Organizador de gaveta colmeia' },
+    top2: { href: 'https://s.shopee.com.br/3g4t9xvPBa', label: 'Cabides veludo antiderrapante' },
+    coz1: { href: 'https://s.shopee.com.br/1147yyYNTM' },
+    coz2: { href: 'https://s.shopee.com.br/9pfWV4hyym' },
+    coz3: { href: 'https://s.shopee.com.br/80DsJodP5J' },
+    org1: { href: 'https://s.shopee.com.br/8AXIVui1K5' },
+    org2: { href: 'https://s.shopee.com.br/1147ytafjz' },
+    sal1: { href: 'https://s.shopee.com.br/gRHaPMGZg' },
+    sal2: { href: 'https://s.shopee.com.br/8VA8um15fJ' },
+    sal3: { href: 'https://s.shopee.com.br/qkhmjBOoB' }
+  };
+
+  function loadSaved() {
+    try {
+      const saved = localStorage.getItem('achadinhos_links');
+      if (saved) Object.assign(LINKS, JSON.parse(saved));
+    } catch(e) {}
+    applyLinks();
+  }
+
+  function applyLinks() {
+    for (const key in LINKS) {
+      const el = document.getElementById('link-' + key);
+      if (el && LINKS[key].href && LINKS[key].href !== '#') {
+        el.href = LINKS[key].href;
+      }
+      if (LINKS[key].label) {
+        const lbl = document.getElementById('label-' + key);
+        if (lbl) lbl.textContent = LINKS[key].label;
+      }
+    }
+  }
+
+  function openEdit() {
+    document.getElementById('edit-panel').classList.add('open');
+    try {
+      const saved = localStorage.getItem('achadinhos_links');
+      if (saved) {
+        const data = JSON.parse(saved);
+        for (const key in data) {
+          const inp = document.getElementById('inp-' + key);
+          if (inp && data[key].href !== '#') inp.value = data[key].href || '';
+          const inpL = document.getElementById('inp-' + key + '-label');
+          if (inpL) inpL.value = data[key].label || '';
+        }
+      }
+    } catch(e) {}
+  }
+
+  function closeEdit() {
+    document.getElementById('edit-panel').classList.remove('open');
+  }
+
+  function saveLinks() {
+    const keys = ['top1','top2','coz1','coz2','coz3','org1','org2','sal1','sal2','sal3'];
+    keys.forEach(key => {
+      const inp = document.getElementById('inp-' + key);
+      if (inp && inp.value) LINKS[key] = { ...LINKS[key], href: inp.value };
+      const inpL = document.getElementById('inp-' + key + '-label');
+      if (inpL && inpL.value) LINKS[key] = { ...LINKS[key], label: inpL.value };
+    });
+    try { localStorage.setItem('achadinhos_links', JSON.stringify(LINKS)); } catch(e) {}
+    applyLinks();
+    closeEdit();
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  document.getElementById('edit-panel').addEventListener('click', function(e) {
+    if (e.target === this) closeEdit();
+  });
+
+  loadSaved();
+</script>
+</body>
+</html>
